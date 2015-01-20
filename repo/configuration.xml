@@ -1,0 +1,50 @@
+<!DOCTYPE Repository
+        PUBLIC "-//The Apache Software Foundation//DTD Jackrabbit 1.5//EN"
+        "http://jackrabbit.apache.org/dtd/repository-1.5.dtd">
+<Repository>
+    <FileSystem class="org.apache.jackrabbit.core.fs.mem.MemoryFileSystem"/>
+
+    <Security appName="jackrabbit-play">
+        <AccessManager class="org.apache.jackrabbit.core.security.simple.SimpleAccessManager"/>
+        <LoginModule class="org.apache.jackrabbit.core.security.simple.SimpleLoginModule"/>
+    </Security>
+
+    <Workspaces rootPath="${rep.home}/workspaces" defaultWorkspace="default"/>
+    <!--<Workspaces rootPath="${rep.home}/workspaces" defaultWorkspace="default" configRootPath="${rep.home}/../workspacesConfig"/>-->
+
+    <Workspace name="${wsp.name}">
+        <FileSystem class="org.apache.jackrabbit.core.fs.mem.MemoryFileSystem"/>
+        <PersistenceManager class="org.apache.jackrabbit.core.persistence.mem.InMemBundlePersistenceManager"/>
+        <SearchIndex class="org.apache.jackrabbit.core.query.lucene.SearchIndex">
+            <param name="path" value="${wsp.home}/index"/>
+            <param name="textFilterClasses" value="org.apache.jackrabbit.extractor.PlainTextExtractor,org.apache.jackrabbit.extractor.MsWordTextExtractor,org.apache.jackrabbit.extractor.MsExcelTextExtractor,org.apache.jackrabbit.extractor.MsPowerPointTextExtractor,org.apache.jackrabbit.extractor.PdfTextExtractor,org.apache.jackrabbit.extractor.OpenOfficeTextExtractor,org.apache.jackrabbit.extractor.RTFTextExtractor,org.apache.jackrabbit.extractor.HTMLTextExtractor,org.apache.jackrabbit.extractor.XMLTextExtractor"/>
+            <param name="extractorPoolSize" value="2"/>
+            <param name="supportHighlighting" value="true"/>
+        </SearchIndex>
+    </Workspace>
+
+    <Versioning rootPath="${rep.home}/version">
+        <FileSystem class="org.apache.jackrabbit.core.fs.mem.MemoryFileSystem"/>
+        <PersistenceManager class="org.apache.jackrabbit.core.persistence.mem.InMemBundlePersistenceManager"/>
+    </Versioning>
+
+    <SearchIndex class="org.apache.jackrabbit.core.query.lucene.SearchIndex">
+        <param name="path" value="${rep.home}/repository/index"/>
+        <param name="textFilterClasses" value="org.apache.jackrabbit.extractor.PlainTextExtractor,org.apache.jackrabbit.extractor.MsWordTextExtractor,org.apache.jackrabbit.extractor.MsExcelTextExtractor,org.apache.jackrabbit.extractor.MsPowerPointTextExtractor,org.apache.jackrabbit.extractor.PdfTextExtractor,org.apache.jackrabbit.extractor.OpenOfficeTextExtractor,org.apache.jackrabbit.extractor.RTFTextExtractor,org.apache.jackrabbit.extractor.HTMLTextExtractor,org.apache.jackrabbit.extractor.XMLTextExtractor"/>
+        <param name="extractorPoolSize" value="2"/>
+        <param name="supportHighlighting" value="true"/>
+    </SearchIndex>
+
+    <Cluster id="node1">
+        <Journal class="org.apache.jackrabbit.core.journal.FileJournal">
+            <param name="revision" value="${rep.home}/cluster/revision.log"/>
+            <param name="directory" value="${rep.home}/cluster/directory"/>
+        </Journal>
+    </Cluster>
+    
+    <DataStore class="org.apache.jackrabbit.core.data.FileDataStore">
+        <param name="path" value="${rep.home}/repository/datastore"/>
+        <param name="minRecordLength" value="100"/>
+    </DataStore>
+
+</Repository>
